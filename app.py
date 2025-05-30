@@ -74,23 +74,14 @@ def call_gemini_api(messages, api_key=None, model="gemini-1.5-flash", max_retrie
 # URL 크롤링 함수
 def crawl_url_content(url):
     try:
-        # 일반적인 브라우저처럼 보이도록 User-Agent 설정
+        # 기본 User-Agent만 설정
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
         
-        response = requests.get(url, headers=headers, timeout=10, verify=True)
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         
-        # 인코딩 설정
-        if response.encoding.lower() == 'iso-8859-1':
-            response.encoding = response.apparent_encoding
-            
         soup = BeautifulSoup(response.text, "html.parser")
         
         # 메타 데이터 추출
