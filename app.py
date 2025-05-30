@@ -154,7 +154,13 @@ def build_prompt_messages(user_input, chat_history, bookmarks):
 
 # 사이드바 UI - URL 입력 및 저장 버튼
 st.sidebar.header("즐겨찾기 추가")
-url_input = st.sidebar.text_input("URL 입력", key="url_input")
+
+# URL 입력 필드의 키를 동적으로 관리
+if "url_input_key" not in st.session_state:
+    st.session_state["url_input_key"] = 0
+
+url_input = st.sidebar.text_input("URL 입력", key=f"url_input_{st.session_state.url_input_key}")
+
 if st.sidebar.button("즐겨찾기 저장"):
     # 유효성 검사
     if not url_input or not url_input.startswith("http"):
@@ -166,6 +172,9 @@ if st.sidebar.button("즐겨찾기 저장"):
         if content:
             st.session_state["bookmarks"].append({"url": url_input, "content": content})
             st.sidebar.success("즐겨찾기가 성공적으로 저장되었습니다!")
+            # URL 입력 필드 초기화를 위해 키 값 증가
+            st.session_state["url_input_key"] += 1
+            st.rerun()
         else:
             st.sidebar.error("URL에서 내용을 불러올 수 없습니다.")
 
