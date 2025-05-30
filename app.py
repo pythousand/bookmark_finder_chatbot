@@ -84,20 +84,13 @@ def crawl_url_content(url):
             "Upgrade-Insecure-Requests": "1"
         }
         
-        # 디버깅을 위한 로그 추가
-        st.write(f"URL 크롤링 시도: {url}")
-        
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, headers=headers, timeout=10, verify=True)
         response.raise_for_status()
         
-        # 응답 상태 코드 확인
-        st.write(f"응답 상태 코드: {response.status_code}")
-        
-        # 응답 헤더 확인
-        st.write("응답 헤더:")
-        for key, value in response.headers.items():
-            st.write(f"{key}: {value}")
-        
+        # 인코딩 설정
+        if response.encoding.lower() == 'iso-8859-1':
+            response.encoding = response.apparent_encoding
+            
         soup = BeautifulSoup(response.text, "html.parser")
         
         # 메타 데이터 추출
@@ -129,31 +122,23 @@ def crawl_url_content(url):
         # 전체 내용을 하나의 문자열로 결합
         full_content = "\n".join(content_parts)
         
-        # 내용이 비어있는지 확인
         if not full_content.strip():
-            st.error("웹페이지에서 의미 있는 텍스트를 찾을 수 없습니다.")
+            st.error("웹페이지에서 내용을 찾을 수 없습니다.")
             return None
             
         return full_content[:2000]  # 2000자로 제한
         
     except requests.exceptions.HTTPError as e:
-        error_msg = f"HTTP 오류 발생: {str(e)}"
-        if hasattr(e, 'response') and e.response is not None:
-            error_msg += f"\n상태 코드: {e.response.status_code}"
-            try:
-                error_detail = e.response.json()
-                error_msg += f"\n상세 오류: {json.dumps(error_detail, ensure_ascii=False, indent=2)}"
-            except:
-                error_msg += f"\n응답 내용: {e.response.text[:200]}"
-        st.error(error_msg)
+        if e.response.status_code == 403:
+            st.error(f"해당 웹사이트({url})가 크롤링을 차단하고 있습니다. 다른 URL을 시도해주세요.")
+        else:
+            st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
-        
     except requests.exceptions.RequestException as e:
-        st.error(f"네트워크 오류 발생: {str(e)}")
+        st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
-        
     except Exception as e:
-        st.error(f"예상치 못한 오류 발생: {str(e)}\n오류 타입: {type(e).__name__}")
+        st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
 
 # 프롬프트 메시지 리스트 생성 함수
