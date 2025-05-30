@@ -87,11 +87,6 @@ def crawl_url_content(url):
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         
-        # 나무위키 특별 처리
-        if "namu.wiki" in url:
-            st.warning("나무위키는 크롤링이 제한되어 있어 내용을 가져올 수 없습니다. 다른 URL을 시도해주세요.")
-            return None
-            
         soup = BeautifulSoup(response.text, "html.parser")
         
         # 메타 데이터 추출
@@ -236,17 +231,14 @@ st.markdown("""
 <style>
 /* 전체 앱 기본 스타일 */
 .stApp {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #ffffff;
-    background-color: #000000;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+    background-color: #f8f9fa;
+    line-height: 1.6;
 }
 
 /* 구분선 제거 */
-hr {
-    display: none !important;
-}
-
-.stDivider {
+hr, .stDivider {
     display: none !important;
 }
 
@@ -254,9 +246,9 @@ hr {
 .chat-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px 0;
-    max-width: 800px;
+    gap: 16px;
+    padding: 20px 0;
+    max-width: 900px;
     margin: 0 auto;
     background-color: transparent !important;
 }
@@ -266,6 +258,12 @@ hr {
     flex-direction: column;
     max-width: 85%;
     background-color: transparent !important;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .user-message-wrapper {
@@ -278,92 +276,132 @@ hr {
 
 /* 메시지 버블 스타일 */
 .message-bubble {
-    padding: 12px 15px;
-    border-radius: 15px;
+    padding: 14px 18px;
+    border-radius: 18px;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
     word-wrap: break-word;
-    box-shadow: 0 1px 2px rgba(255,255,255,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
 }
 
 .user-bubble {
-    background-color: #0084ff;
+    background-color: #007AFF;
     color: white;
-    border-radius: 15px 15px 0 15px;
+    border-radius: 18px 18px 4px 18px;
     margin-left: auto;
 }
 
+.user-bubble:hover {
+    background-color: #0066CC;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 .bot-bubble {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    border-radius: 15px 15px 15px 0;
+    background-color: white;
+    color: #2c3e50;
+    border-radius: 18px 18px 18px 4px;
     margin-right: auto;
-    border: 1px solid #333333;
+    border: 1px solid #e9ecef;
+}
+
+.bot-bubble:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .message-time {
-    font-size: 11px;
-    color: #888888;
-    margin-top: 4px;
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 6px;
     padding: 0 4px;
     background-color: transparent !important;
 }
 
 /* 입력 폼 스타일 */
 .stTextInput > div > div > input {
-    border-radius: 20px;
-    padding: 12px 20px;
+    border-radius: 24px;
+    padding: 14px 24px;
     font-size: 15px;
-    border: 1px solid #333333;
-    background-color: #1a1a1a;
-    color: #ffffff;
+    border: 2px solid #e9ecef;
+    background-color: white;
+    color: #2c3e50;
+    transition: all 0.2s ease;
 }
 
 .stTextInput > div > div > input:focus {
-    border-color: #0084ff;
-    box-shadow: 0 0 0 2px rgba(0,132,255,0.2);
+    border-color: #007AFF;
+    box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    outline: none;
 }
 
 .stTextInput > div > div > input::placeholder {
-    color: #888888;
+    color: #adb5bd;
 }
 
 /* 버튼 스타일 */
 .stButton > button {
-    border-radius: 20px;
-    padding: 8px 20px;
+    border-radius: 24px;
+    padding: 10px 24px;
     font-weight: 600;
-    background-color: #0084ff;
+    background-color: #007AFF;
     color: white;
     border: none;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .stButton > button:hover {
-    background-color: #0073e6;
+    background-color: #0066CC;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 /* 제목 스타일 */
 h1, h2, h3 {
-    color: #ffffff;
-    font-weight: 600;
+    color: #1a1a1a;
+    font-weight: 700;
     background-color: transparent !important;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-top: 2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 1.5rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 1.2rem;
 }
 
 /* 즐겨찾기 목록 스타일 */
 .stMarkdown {
-    color: #ffffff;
+    color: #2c3e50;
     background-color: transparent !important;
     padding: 0 !important;
     border: none !important;
 }
 
 .stMarkdown a {
-    color: #0084ff;
+    color: #007AFF;
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .stMarkdown a:hover {
+    color: #0066CC;
     text-decoration: underline;
 }
 
@@ -372,57 +410,66 @@ h1, h2, h3 {
 .stError,
 .stWarning,
 .stSuccess {
-    color: #ffffff;
+    color: #2c3e50;
     font-weight: 500;
-    background-color: #1a1a1a !important;
-    border: 1px solid #333333;
+    background-color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* 사이드바 스타일 */
 .sidebar {
-    background-color: #000000 !important;
+    background-color: white !important;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
 }
 
 .sidebar .stMarkdown,
 .sidebar .stText {
-    color: #ffffff !important;
+    color: #2c3e50 !important;
     background-color: transparent !important;
 }
 
 /* 스크롤바 스타일 */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: #f1f3f5;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #333333;
-    border-radius: 3px;
+    background: #ced4da;
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #444444;
+    background: #adb5bd;
 }
 
 /* 에러 메시지 스타일 */
 .stError {
+    background-color: #fff5f5 !important;
     border-left: 4px solid #ff4444 !important;
 }
 
 .stSuccess {
+    background-color: #f0fff4 !important;
     border-left: 4px solid #00C851 !important;
 }
 
 .stWarning {
+    background-color: #fff8e1 !important;
     border-left: 4px solid #ffbb33 !important;
 }
 
 /* 메인 컨테이너 스타일 */
 .main {
     background-color: transparent !important;
+    padding: 2rem !important;
 }
 
 /* 스트림릿 기본 요소 스타일 재정의 */
@@ -436,6 +483,50 @@ h1, h2, h3 {
 
 .stMarkdown > div > p {
     background-color: transparent !important;
+    margin-bottom: 1rem;
+}
+
+/* 폼 컨테이너 스타일 */
+.stForm {
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+/* 즐겨찾기 목록 컨테이너 */
+.bookmarks-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+/* 로딩 스피너 스타일 */
+.stSpinner > div {
+    border-color: #007AFF !important;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .chat-container {
+        padding: 10px 0;
+    }
+    
+    .message-wrapper {
+        max-width: 95%;
+    }
+    
+    .message-bubble {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.2rem; }
 }
 </style>
 """, unsafe_allow_html=True)
