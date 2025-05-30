@@ -199,6 +199,14 @@ if st.sidebar.button("즐겨찾기 저장"):
         else:
             st.sidebar.error("URL에서 내용을 불러올 수 없습니다.")
 
+# 채팅 기록 초기화 버튼
+st.sidebar.markdown("---")  # 구분선 추가
+st.sidebar.header("채팅 관리")
+if st.sidebar.button("채팅 기록 초기화", type="secondary"):
+    st.session_state["chat_history"] = []
+    st.sidebar.success("채팅 기록이 초기화되었습니다.")
+    st.rerun()
+
 # 앱 제목
 st.title("나만의 프롬프트 기반 Gemini 챗봇")
 
