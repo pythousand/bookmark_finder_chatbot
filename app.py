@@ -232,8 +232,8 @@ st.markdown("""
 /* 전체 앱 기본 스타일 */
 .stApp {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background-color: #f8f9fa;
+    color: #e1e1e1;
+    background-color: #0a0a0a;
     line-height: 1.6;
 }
 
@@ -281,39 +281,40 @@ hr, .stDivider {
     font-size: 15px;
     line-height: 1.6;
     word-wrap: break-word;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     transition: all 0.2s ease;
 }
 
 .user-bubble {
-    background-color: #007AFF;
+    background-color: #2563eb;
     color: white;
     border-radius: 18px 18px 4px 18px;
     margin-left: auto;
 }
 
 .user-bubble:hover {
-    background-color: #0066CC;
+    background-color: #1d4ed8;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .bot-bubble {
-    background-color: white;
-    color: #2c3e50;
+    background-color: #1f2937;
+    color: #e1e1e1;
     border-radius: 18px 18px 18px 4px;
     margin-right: auto;
-    border: 1px solid #e9ecef;
+    border: 1px solid #374151;
 }
 
 .bot-bubble:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    background-color: #2d3748;
 }
 
 .message-time {
     font-size: 12px;
-    color: #6c757d;
+    color: #9ca3af;
     margin-top: 6px;
     padding: 0 4px;
     background-color: transparent !important;
@@ -324,20 +325,21 @@ hr, .stDivider {
     border-radius: 24px;
     padding: 14px 24px;
     font-size: 15px;
-    border: 2px solid #e9ecef;
-    background-color: white;
-    color: #2c3e50;
+    border: 2px solid #374151;
+    background-color: #1f2937;
+    color: #e1e1e1;
     transition: all 0.2s ease;
 }
 
 .stTextInput > div > div > input:focus {
-    border-color: #007AFF;
-    box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
     outline: none;
+    background-color: #2d3748;
 }
 
 .stTextInput > div > div > input::placeholder {
-    color: #adb5bd;
+    color: #9ca3af;
 }
 
 /* 버튼 스타일 */
@@ -345,27 +347,27 @@ hr, .stDivider {
     border-radius: 24px;
     padding: 10px 24px;
     font-weight: 600;
-    background-color: #007AFF;
+    background-color: #2563eb;
     color: white;
     border: none;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .stButton > button:hover {
-    background-color: #0066CC;
+    background-color: #1d4ed8;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .stButton > button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* 제목 스타일 */
 h1, h2, h3 {
-    color: #1a1a1a;
+    color: #f3f4f6;
     font-weight: 700;
     background-color: transparent !important;
     margin-bottom: 1rem;
@@ -388,20 +390,20 @@ h3 {
 
 /* 즐겨찾기 목록 스타일 */
 .stMarkdown {
-    color: #2c3e50;
+    color: #e1e1e1;
     background-color: transparent !important;
     padding: 0 !important;
     border: none !important;
 }
 
 .stMarkdown a {
-    color: #007AFF;
+    color: #60a5fa;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .stMarkdown a:hover {
-    color: #0066CC;
+    color: #93c5fd;
     text-decoration: underline;
 }
 
@@ -410,24 +412,24 @@ h3 {
 .stError,
 .stWarning,
 .stSuccess {
-    color: #2c3e50;
+    color: #e1e1e1;
     font-weight: 500;
-    background-color: white !important;
+    background-color: #1f2937 !important;
     border: none !important;
     border-radius: 12px !important;
     padding: 16px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 /* 사이드바 스타일 */
 .sidebar {
-    background-color: white !important;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+    background-color: #111827 !important;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.3);
 }
 
 .sidebar .stMarkdown,
 .sidebar .stText {
-    color: #2c3e50 !important;
+    color: #e1e1e1 !important;
     background-color: transparent !important;
 }
 
@@ -437,33 +439,33 @@ h3 {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f3f5;
+    background: #1f2937;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #ced4da;
+    background: #4b5563;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #adb5bd;
+    background: #6b7280;
 }
 
 /* 에러 메시지 스타일 */
 .stError {
-    background-color: #fff5f5 !important;
-    border-left: 4px solid #ff4444 !important;
+    background-color: #7f1d1d !important;
+    border-left: 4px solid #ef4444 !important;
 }
 
 .stSuccess {
-    background-color: #f0fff4 !important;
-    border-left: 4px solid #00C851 !important;
+    background-color: #064e3b !important;
+    border-left: 4px solid #10b981 !important;
 }
 
 .stWarning {
-    background-color: #fff8e1 !important;
-    border-left: 4px solid #ffbb33 !important;
+    background-color: #78350f !important;
+    border-left: 4px solid #f59e0b !important;
 }
 
 /* 메인 컨테이너 스타일 */
@@ -488,25 +490,27 @@ h3 {
 
 /* 폼 컨테이너 스타일 */
 .stForm {
-    background-color: white;
+    background-color: #1f2937;
     padding: 20px;
     border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     margin-bottom: 2rem;
+    border: 1px solid #374151;
 }
 
 /* 즐겨찾기 목록 컨테이너 */
 .bookmarks-container {
-    background-color: white;
+    background-color: #1f2937;
     padding: 20px;
     border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     margin-bottom: 2rem;
+    border: 1px solid #374151;
 }
 
 /* 로딩 스피너 스타일 */
 .stSpinner > div {
-    border-color: #007AFF !important;
+    border-color: #2563eb !important;
 }
 
 /* 반응형 디자인 */
