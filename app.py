@@ -120,16 +120,16 @@ def crawl_url_content(url):
         return full_content[:2000]  # 2000자로 제한
         
     except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 403:
-            st.error(f"해당 웹사이트({url})가 크롤링을 차단하고 있습니다. 다른 URL을 시도해주세요.")
+        if hasattr(e, 'response') and e.response is not None and e.response.status_code == 403:
+            st.error(f"해당 웹사이트({url})가 크롤링을 차단하고 있어 내용을 가져올 수 없습니다.")
         else:
-            st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
+            st.error("URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
     except requests.exceptions.RequestException as e:
-        st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
+        st.error("URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
     except Exception as e:
-        st.error(f"URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
+        st.error("URL 크롤링 중 오류가 발생했습니다. 다시 시도해주세요.")
         return None
 
 # 프롬프트 메시지 리스트 생성 함수
