@@ -74,8 +74,24 @@ def call_gemini_api(messages, api_key=None, model="gemini-1.5-flash", max_retrie
 # URL 크롤링 함수
 def crawl_url_content(url):
     try:
-        response = requests.get(url, timeout=10)
+        # 일반적인 브라우저처럼 보이도록 User-Agent 설정
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1"
+        }
+        
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
+        
+        # 나무위키 특별 처리
+        if "namu.wiki" in url:
+            st.warning("나무위키는 크롤링이 제한되어 있어 내용을 가져올 수 없습니다. 다른 URL을 시도해주세요.")
+            return None
+            
         soup = BeautifulSoup(response.text, "html.parser")
         
         # 메타 데이터 추출
@@ -107,8 +123,18 @@ def crawl_url_content(url):
         # 전체 내용을 하나의 문자열로 결합
         full_content = "\n".join(content_parts)
         return full_content[:2000]  # 2000자로 제한
+        
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 403:
+            st.error(f"해당 웹사이트({url})가 크롤링을 차단하고 있습니다. 다른 URL을 시도해주세요.")
+        else:
+            st.error(f"URL 크롤링 중 HTTP 오류 발생: {str(e)}")
+        return None
+    except requests.exceptions.RequestException as e:
+        st.error(f"URL 크롤링 중 네트워크 오류 발생: {str(e)}")
+        return None
     except Exception as e:
-        st.error(f"URL 크롤링 중 오류 발생: {str(e)}")
+        st.error(f"URL 크롤링 중 예상치 못한 오류 발생: {str(e)}")
         return None
 
 # 프롬프트 메시지 리스트 생성 함수
